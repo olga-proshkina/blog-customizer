@@ -12,11 +12,16 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
-	// ArticleStateType,
-	// defaultArticleState,
+	ArticleStateType,
 } from 'src/constants/articleProps';
 
-export const ArticleParamsForm = () => {
+type ArticleParamsFormProps = {
+	setArticleState: (state: ArticleStateType) => void;
+};
+
+export const ArticleParamsForm = ({
+	setArticleState,
+}: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedFont, setSelectedFont] = useState(fontFamilyOptions[0]);
 	const [selectedFontSize, setSelectedFontSize] = useState(fontSizeOptions[0]);
@@ -28,29 +33,38 @@ export const ArticleParamsForm = () => {
 		contentWidthArr[0]
 	);
 
-	// const handleApply = () => {
-	// 	styles={'--font-family': selectedFont.value,
-	// 	'--font-size': selectedFontSize.value,
-	// 	'--font-color': selectedFontColor.value,
-	// 	'--container-width': selectedContentStyle.value,
-	// 	'--bg-color': selectedBackgroundColor.value}
-	// };
-	// const handleClear = () => {
+	const handleApply = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setArticleState({
+			fontFamilyOption: selectedFont,
+			fontSizeOption: selectedFontSize,
+			fontColor: selectedFontColor,
+			backgroundColor: selectedBackgroundColor,
+			contentWidth: selectedContentStyle,
+		});
+	};
 
-	// 	handleApply();
-	// };
-
-	// const handleClear = () => {
-
-	// 	handleApply();
-	// };
+	const handleClear = () => {
+		setSelectedFont(fontFamilyOptions[0]);
+		setSelectedFontSize(fontSizeOptions[0]);
+		setSelectedFontColor(fontColors[0]);
+		setBackgroundColor(backgroundColors[0]);
+		setSelectedContentStyle(contentWidthArr[0]);
+		setArticleState({
+			fontFamilyOption: fontFamilyOptions[0],
+			fontSizeOption: fontSizeOptions[0],
+			fontColor: fontColors[0],
+			backgroundColor: backgroundColors[0],
+			contentWidth: contentWidthArr[0],
+		});
+	};
 
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
 			<aside
 				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
-				<form className={styles.form}>
+				<form className={styles.form} onSubmit={handleApply}>
 					<h2 className={styles.title}>Задайте параметры</h2>
 					<Select
 						selected={selectedFont}
@@ -90,14 +104,9 @@ export const ArticleParamsForm = () => {
 							title='Сбросить'
 							htmlType='reset'
 							type='clear'
-							// onClick={handleClear}
+							onClick={handleClear}
 						/>
-						<Button
-							title='Применить'
-							htmlType='submit'
-							type='apply'
-							// onClick={handleApply}
-						/>
+						<Button title='Применить' htmlType='submit' type='apply' />
 					</div>
 				</form>
 			</aside>
