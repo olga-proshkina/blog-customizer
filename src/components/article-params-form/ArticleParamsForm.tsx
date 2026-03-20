@@ -13,6 +13,7 @@ import {
 	contentWidthArr,
 	fontSizeOptions,
 	ArticleStateType,
+	defaultArticleState,
 } from 'src/constants/articleProps';
 import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 
@@ -46,18 +47,7 @@ export const ArticleParamsForm = ({
 	};
 
 	const handleClear = () => {
-		setSelectedFont(fontFamilyOptions[0]);
-		setSelectedFontSize(fontSizeOptions[0]);
-		setSelectedFontColor(fontColors[0]);
-		setBackgroundColor(backgroundColors[0]);
-		setSelectedContentStyle(contentWidthArr[0]);
-		setArticleState({
-			fontFamilyOption: fontFamilyOptions[0],
-			fontSizeOption: fontSizeOptions[0],
-			fontColor: fontColors[0],
-			backgroundColor: backgroundColors[0],
-			contentWidth: contentWidthArr[0],
-		});
+		setArticleState(defaultArticleState);
 	};
 
 	const rootRef = useRef<HTMLDivElement>(null);
